@@ -10,7 +10,7 @@
 #a = 20
 #b = 10
 
-#print(a+b)
+#print(a+b)  
 #print(a-b)
 #print(a*b)
 #print(a%b)
@@ -21,11 +21,11 @@
 #else:
 #    print("fail")
 
-marks = int(input("enter your marks"))
-if marks>90:
-    print("grade a")
-elif marks>80:
-    print("grade b")
-elif marks<70:
-    print("grade c")
+# marks = int(input("enter your marks"))
+# if marks>90:
+#     print("grade a")
+# elif marks>80:
+#     print("grade b")
+# elif marks<70:
+#     print("grade c")
 
