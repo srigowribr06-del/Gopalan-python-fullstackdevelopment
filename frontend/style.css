@@ -43,7 +43,7 @@ input{
 
 
 
-body{
+/* body{
     margin: 0;
     font-family: Arial, sans-serif;
 }
@@ -85,8 +85,8 @@ button{
     margin:20px;
 }
 
-.card{
-    background-color:rgb(161, 146, 129);
+.card{ */
+    /* background-color:rgb(161, 146, 129);
     padding:20px;
     border-radius:10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -108,4 +108,5 @@ button{
     .hero{
         padding:40px 10px;
     }
-}
+} */ 
+  

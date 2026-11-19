@@ -1,0 +1,465 @@
+Server [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Password for user postgres:
+
+psql (18.7)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# \dt
+              List of tables
+ Schema |     Name      | Type  |  Owner
+--------+---------------+-------+----------
+ public | student       | table | postgres
+ public | student marks | table | postgres
+(2 rows)
+
+
+postgres=# \c college
+You are now connected to database "college" as user "postgres".
+college=# \dt
+Did not find any tables.
+college=# \c postgres
+You are now connected to database "postgres" as user "postgres".
+postgres=# \dt
+              List of tables
+ Schema |     Name      | Type  |  Owner
+--------+---------------+-------+----------
+ public | student       | table | postgres
+ public | student marks | table | postgres
+(2 rows)
+
+
+postgres=# CREATE DATABASE college;
+ERROR:  database "college" already exists
+postgres=# CREATE DATABASE college1;
+CREATE DATABASE
+postgres=# \c college1
+You are now connected to database "college1" as user "postgres".
+college1=# CREATE TABLE students (
+college1(# id SERIAL PRIMARY KEY,
+college1(# name VARCHAR(100),
+college1(# age INT,
+college1(# course VARCHAR(50),
+college1(# marks INT
+college1(# );
+CREATE TABLE
+college1=# INSERT INTO students (name,age,course,marks)
+college1-# VALUES
+college1-# ('Gowri',22,BCA,85),
+college1-# ('Shree',23,BCA,90),
+college1-# ('Hajira',24,BCA,60),
+college1-# ('Hema',25,BCA,50);
+ERROR:  column "bca" does not exist
+LINE 3: ('Gowri',22,BCA,85),
+                    ^
+college1=# INSERT INTO students (name,age,course,marks)
+college1-# VALUES
+college1-# ('Gowri',22,'BCA',85),
+college1-# ('Hajira',23,'BCA',75),
+college1-# ('Hema',24,'BCA',65),
+college1-# ('Shree',25,'BCA',55);
+INSERT 0 4
+college1=# SELECT * FROM students;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  1 | Gowri  |  22 | BCA    |    85
+  2 | Hajira |  23 | BCA    |    75
+  3 | Hema   |  24 | BCA    |    65
+  4 | Shree  |  25 | BCA    |    55
+(4 rows)
+
+
+college1=# SELECT * FROM students
+college1-# WHERE marks > 80;
+ id | name  | age | course | marks
+----+-------+-----+--------+-------
+  1 | Gowri |  22 | BCA    |    85
+(1 row)
+
+
+college1=# SELECT * FROM students
+college1-# WHERE marks < 80;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  2 | Hajira |  23 | BCA    |    75
+  3 | Hema   |  24 | BCA    |    65
+  4 | Shree  |  25 | BCA    |    55
+(3 rows)
+
+
+college1=# SELECT * FROM student
+college1-# ORDER BY marks ASC;
+ERROR:  relation "student" does not exist
+LINE 1: SELECT * FROM student
+                      ^
+college1=# SELECT * FROM students
+college1-# ORDER BY marks ASC;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  4 | Shree  |  25 | BCA    |    55
+  3 | Hema   |  24 | BCA    |    65
+  2 | Hajira |  23 | BCA    |    75
+  1 | Gowri  |  22 | BCA    |    85
+(4 rows)
+
+
+college1=# SELECT * FROM students
+college1-# ORDER BY marks DESC;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  1 | Gowri  |  22 | BCA    |    85
+  2 | Hajira |  23 | BCA    |    75
+  3 | Hema   |  24 | BCA    |    65
+  4 | Shree  |  25 | BCA    |    55
+(4 rows)
+
+
+college1=# UPDATE students
+college1-# SET marks=92
+college1-# WHERE id=1;
+UPDATE 1
+college1=# SELECT * FROM students;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  2 | Hajira |  23 | BCA    |    75
+  3 | Hema   |  24 | BCA    |    65
+  4 | Shree  |  25 | BCA    |    55
+  1 | Gowri  |  22 | BCA    |    92
+(4 rows)
+
+
+college1=# UPDATE students
+college1-# SET marks=92
+college1-# WHERE id=2;
+UPDATE 1
+college1=# UPDATE students
+college1-# SET marks=92
+college1-# WHERE id=3;
+UPDATE 1
+college1=# UPDATE students
+college1-# SET marks=92
+college1-# WHERE id=4;
+UPDATE 1
+college1=# SELECT * FROM students;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  1 | Gowri  |  22 | BCA    |    92
+  2 | Hajira |  23 | BCA    |    92
+  3 | Hema   |  24 | BCA    |    92
+  4 | Shree  |  25 | BCA    |    92
+(4 rows)
+
+
+college1=# UPDATE students
+college1-# SET marks=85
+college1-# WHERE id IN (1,3,4);
+UPDATE 3
+college1=# UPDATE students
+college1-# SET marks=CASE
+college1-# WHEN id=1 THEN 92
+college1-# WHEN id=2 THEN 93
+college1-# WHEN id=3 THEN 83
+college1-# END
+college1-# WHERE id IN (1,2,3);
+UPDATE 3
+college1=# SELECT * FROM students;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  4 | Shree  |  25 | BCA    |    85
+  1 | Gowri  |  22 | BCA    |    92
+  2 | Hajira |  23 | BCA    |    93
+  3 | Hema   |  24 | BCA    |    83
+(4 rows)
+
+
+college1=# UPDATE students
+college1-# SET marks=marks+3;
+UPDATE 4
+college1=# SELECT * FROM students;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  4 | Shree  |  25 | BCA    |    88
+  1 | Gowri  |  22 | BCA    |    95
+  2 | Hajira |  23 | BCA    |    96
+  3 | Hema   |  24 | BCA    |    86
+(4 rows)
+
+
+college1=# DELETE * FROM student
+college1-# WHERE id=1;
+ERROR:  syntax error at or near "*"
+LINE 1: DELETE * FROM student
+               ^
+college1=# DELETE FROM students
+college1-# WHERE id=1;
+DELETE 1
+college1=# SELECT * FROM students;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  4 | Shree  |  25 | BCA    |    88
+  2 | Hajira |  23 | BCA    |    96
+  3 | Hema   |  24 | BCA    |    86
+(3 rows)
+
+
+college1=# select * from students
+college1-# limit 2;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  4 | Shree  |  25 | BCA    |    88
+  2 | Hajira |  23 | BCA    |    96
+(2 rows)
+
+
+college1=# select * from students
+college1-# ORDER BY marks DESC limit 2;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  2 | Hajira |  23 | BCA    |    96
+  4 | Shree  |  25 | BCA    |    88
+(2 rows)
+
+
+college1=# select count(*)
+college1-# from students;
+ count
+-------
+     3
+(1 row)
+
+
+college1=# select * from students;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  4 | Shree  |  25 | BCA    |    88
+  2 | Hajira |  23 | BCA    |    96
+  3 | Hema   |  24 | BCA    |    86
+(3 rows)
+
+
+college1=# insert into students (name,age,course,marks)
+college1-# values
+college1-# ('Gowri',22,'MCA',76)
+college1-# ('Niki',23,'AIML',98);
+ERROR:  syntax error at or near "("
+LINE 4: ('Niki',23,'AIML',98);
+        ^
+college1=# insert into students (name,age,course,marks)
+college1-# values
+college1-# ('Gowri',22,'MCA',76),
+college1-# ('Niki',23,'AIML',98);
+INSERT 0 2
+college1=# select * from students;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  4 | Shree  |  25 | BCA    |    88
+  2 | Hajira |  23 | BCA    |    96
+  3 | Hema   |  24 | BCA    |    86
+  5 | Gowri  |  22 | MCA    |    76
+  6 | Niki   |  23 | AIML   |    98
+(5 rows)
+
+
+college1=# select * from students
+college1-# WHERE course='BCA';
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  4 | Shree  |  25 | BCA    |    88
+  2 | Hajira |  23 | BCA    |    96
+  3 | Hema   |  24 | BCA    |    86
+(3 rows)
+
+
+college1=# select course,Count(*)
+college1-# from students
+college1-# group by course;
+ course | count
+--------+-------
+ MCA    |     1
+ BCA    |     3
+ AIML   |     1
+(3 rows)
+
+
+college1=# select course,max(marks)
+college1-# from students
+college1-# group by course;
+ course | max
+--------+-----
+ MCA    |  76
+ BCA    |  96
+ AIML   |  98
+(3 rows)
+
+
+college1=# select course,avg(marks)
+college1-# from students
+college1-# select course,avg(marks)
+college1-# ;
+ERROR:  syntax error at or near "select"
+LINE 3: select course,avg(marks)
+        ^
+college1=# select course,avg(marks)
+college1-# from students
+college1-# group by course;
+ course |         avg
+--------+---------------------
+ MCA    | 76.0000000000000000
+ BCA    | 90.0000000000000000
+ AIML   | 98.0000000000000000
+(3 rows)
+
+
+college1=# select course,min(marks)
+college1-# from students
+college1-# group by course;
+ course | min
+--------+-----
+ MCA    |  76
+ BCA    |  86
+ AIML   |  98
+(3 rows)
+
+
+college1=# select max(marks) from students;
+ max
+-----
+  98
+(1 row)
+
+
+college1=# select min(marks) from students;
+ min
+-----
+  76
+(1 row)
+
+
+college1=# select avg(marks) from students;
+         avg
+---------------------
+ 88.8000000000000000
+(1 row)
+
+
+college1=# create table student_card(
+college1(# card_id serial primary key,
+college1(# card_number varchar(50),
+college1(# id int unique reference students(id)
+college1(# );
+ERROR:  syntax error at or near "reference"
+LINE 4: id int unique reference students(id)
+                      ^
+college1=# create table student_card(
+college1(# card_id serial primary key,
+college1(# card_number varchar(50),
+college1(# id int unique references students(id)
+college1(# );
+CREATE TABLE
+college1=# insert into student_card(card_number,student_id)
+college1-# values
+college1-# ;
+ERROR:  syntax error at or near ";"
+LINE 3: ;
+        ^
+college1=# insert into student_card(card_number,id)
+college1-# values
+college1-# ('card048',1),
+college1-# ('card140',2),
+college1-# ('card148',3);
+ERROR:  insert or update on table "student_card" violates foreign key constraint "student_card_id_fkey"
+DETAIL:  Key (id)=(1) is not present in table "students".
+college1=# select * from student;
+ERROR:  relation "student" does not exist
+LINE 1: select * from student;
+                      ^
+college1=# select * from students;
+ id |  name  | age | course | marks
+----+--------+-----+--------+-------
+  4 | Shree  |  25 | BCA    |    88
+  2 | Hajira |  23 | BCA    |    96
+  3 | Hema   |  24 | BCA    |    86
+  5 | Gowri  |  22 | MCA    |    76
+  6 | Niki   |  23 | AIML   |    98
+(5 rows)
+
+
+college1=# insert into student_card(card_number,id)
+college1-# values
+college1-# ('card048',2),
+college1-# ('card140',3),
+college1-# ('card148',4);
+INSERT 0 3
+college1=#  select 8 from student_card;
+ ?column?
+----------
+        8
+        8
+        8
+(3 rows)
+
+
+college1=#  drop table student_card;
+DROP TABLE
+college1=# \dt
+            List of tables
+ Schema |   Name   | Type  |  Owner
+--------+----------+-------+----------
+ public | students | table | postgres
+(1 row)
+
+
+college1=# create table departments(
+college1(# department_id serial primary key,
+college1(# department_name varchar(100));
+CREATE TABLE
+college1=# insert into departments ( department_name)
+college1-# values
+college1-# ('cse'),
+college1-# ('aiml'),
+college1-# ('ece'),
+college1-# ('ise');
+INSERT 0 4
+college1=# create table new(
+college1(# employee_id serial primary key,
+college1(# employee_name varchar(100),
+college1(# salary int,
+college1(# department_id int references departments(department_id)
+college1(# );
+CREATE TABLE
+college1=# insert into employee(employee_name,salary,department_id)
+college1-# values
+college1-# ('Gowri',30000,2),
+college1-# ('Shree',40000,3),
+college1-# ('Hajira',50000,4),
+college1-# ('Nibba',60000,5);
+ERROR:  relation "employee" does not exist
+LINE 1: insert into employee(employee_name,salary,department_id)
+                    ^
+college1=# insert into new(employee_name,salary,department_id)
+college1-# values
+college1-# ('Gowri',30000,2),
+college1-# ('Shree',40000,3),
+college1-# ('Hajira',50000,4),
+college1-# ('Nibba',60000,5);
+ERROR:  insert or update on table "new" violates foreign key constraint "new_department_id_fkey"
+DETAIL:  Key (department_id)=(5) is not present in table "departments".
+college1=# insert into new(employee_name,salary,department_id)
+college1-# ('Gowri',30000,2),
+college1-# ;
+ERROR:  syntax error at or near "'Gowri'"
+LINE 2: ('Gowri',30000,2),
+         ^
+college1=# insert into new(employee_name,salary,department_id)
+college1-# values
+college1-# ('Gowri',30000,2),
+college1-# ('Shree',40000,3),
+college1-# ('Hajira',50000,2);
+INSERT 0 3
+college1=# \q
+Terminate batch job (Y/N)?

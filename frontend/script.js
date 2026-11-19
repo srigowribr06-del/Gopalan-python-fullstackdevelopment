@@ -24,6 +24,6 @@
 // console.log(typeof result);
 // console.log(typeof address);
 
-function changeColor(){
-    document.body.style.background="pink";
-}
+// function changeColor(){
+//     document.body.style.background="pink";
+// }
