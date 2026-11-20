@@ -461,5 +461,4 @@ college1-# ('Gowri',30000,2),
 college1-# ('Shree',40000,3),
 college1-# ('Hajira',50000,2);
 INSERT 0 3
-college1=# \q
-Terminate batch job (Y/N)?
+college1=#   
