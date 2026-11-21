@@ -13,7 +13,7 @@ class Movie(models.Model):
         return self.title
 
     def average_rating(self):
-        reviews = self.review.all()
+        reviews = self.review_set.all()
         if reviews.count() == 0:
             return 0
         total = sum(review.rating for review in reviews)
